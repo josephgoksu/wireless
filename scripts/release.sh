@@ -17,8 +17,11 @@ echo "==> Build $VERSION, signed by $IDENTITY"
 rm -rf $OUT && xcodegen --quiet
 xcodebuild -project Wireless.xcodeproj -scheme Wireless -configuration Release -derivedDataPath $OUT -quiet build \
   DEVELOPMENT_TEAM=$TEAM CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="$IDENTITY" OTHER_CODE_SIGN_FLAGS=--timestamp \
-  ARCHS="arm64 x86_64" ONLY_ACTIVE_ARCH=NO
+  CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO ARCHS="arm64 x86_64" ONLY_ACTIVE_ARCH=NO
 codesign --verify --deep --strict $APP
+for bin in $APP $APP/Contents/PlugIns/WirelessWidget.appex; do   # notarization rejects the debugger entitlement
+  ! codesign -d --entitlements - $bin 2>/dev/null | grep -q get-task-allow || { echo "get-task-allow in $bin"; exit 1; }
+done
 lipo -archs $APP/Contents/MacOS/Wireless
 
 echo "==> Disk image"
