@@ -1,0 +1,56 @@
+name: Wireless
+options:
+  bundleIdPrefix: com.josephgoksu
+  deploymentTarget:
+    macOS: "15.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: ${DEVELOPMENT_TEAM}
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_HARDENED_RUNTIME: YES
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  Wireless:
+    type: application
+    platform: macOS
+    sources: [App, Shared]
+    dependencies:
+      - target: WirelessWidget
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Wireless
+        LSApplicationCategoryType: public.app-category.music
+        NSHumanReadableCopyright: A love letter to the valve radio. Streams belong to the BBC.
+        CFBundleURLTypes:
+          - CFBundleURLName: com.josephgoksu.wireless
+            CFBundleURLSchemes: [wireless]
+    entitlements:
+      path: App/Wireless.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.josephgoksu.wireless
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+  WirelessWidget:
+    type: app-extension
+    platform: macOS
+    sources: [Widget, Shared]
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: Wireless
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: Widget/Widget.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.josephgoksu.wireless.widget
