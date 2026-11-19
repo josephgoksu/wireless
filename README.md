@@ -2,6 +2,10 @@
 
 A 1950s valve radio for your Mac that plays live BBC radio. It lives on your desktop as a widget.
 
+[![Download for macOS](https://img.shields.io/badge/Download-Wireless.dmg-8a6421?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/josephgoksu/wireless/releases/latest/download/Wireless.dmg)
+
+macOS 15+ · Apple silicon and Intel · signed and notarized. Open the DMG, drag Wireless to Applications, and launch it.
+
 ![Wireless](docs/wireless.jpg)
 
 It is drawn entirely in SwiftUI, with no image assets and no dependencies. The app is about 850 lines of Swift.
@@ -30,6 +34,8 @@ make        # builds, installs to ~/Applications, launches
 Widgets need a signed build. The Makefile takes the team from your Apple Development certificate. Override it with `DEVELOPMENT_TEAM=XXXXXXXXXX make`.
 
 Add the widget from the desktop: right-click, Edit Widgets, search for Wireless.
+
+To release, run `NOTARY_PROFILE=<keychain profile> PUBLISH=1 make release`. It builds a universal binary signed with Developer ID, notarizes and staples the DMG, and attaches it to a GitHub release for the version in `project.yml`.
 
 ## How it gets the audio
 

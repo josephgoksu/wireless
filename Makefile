@@ -17,4 +17,7 @@ build:
 icon:
 	swiftc -parse-as-library scripts/icon.swift Shared/Parts.swift Shared/Stations.swift -o build/icon && build/icon App/Assets.xcassets/AppIcon.appiconset
 
-.PHONY: run install build icon
+.PHONY: run install build icon release
+
+release:
+	scripts/release.sh
